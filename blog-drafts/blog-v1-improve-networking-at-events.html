@@ -49,12 +49,31 @@
   @media (min-width: 1024px) { .nav-row { padding: 28px 48px; } .nav-links { display: flex; } }
 
   /* Mobile hamburger (decorative, matches preview) */
-  .nav-burger { display: inline-flex; align-items: center; justify-content: center; height: 40px; width: 40px; border-radius: 999px; border: 1px solid rgba(250,248,245,.3); background: transparent; cursor: pointer; transition: background .2s; }
+  .nav-burger { display: inline-flex; align-items: center; justify-content: center; height: 40px; width: 40px; border-radius: 999px; border: 1px solid rgba(250,248,245,.3); background: transparent; cursor: pointer; transition: background .2s; position: relative; z-index: 80; }
   .nav-burger:hover { background: rgba(250,248,245,.1); }
-  .nav-burger span { display: block; width: 18px; height: 1.5px; background: var(--cream); position: relative; }
-  .nav-burger span::before, .nav-burger span::after { content: ''; position: absolute; left: 0; width: 18px; height: 1.5px; background: var(--cream); }
+  .nav-burger span { display: block; width: 18px; height: 1.5px; background: var(--cream); position: relative; transition: background-color .15s ease; }
+  .nav-burger span::before, .nav-burger span::after { content: ''; position: absolute; left: 0; width: 18px; height: 1.5px; background: var(--cream); transition: transform .3s cubic-bezier(.4,0,.2,1), top .3s cubic-bezier(.4,0,.2,1); }
   .nav-burger span::before { top: -6px; } .nav-burger span::after { top: 6px; }
+  .nav-burger.is-open span { background-color: transparent; }
+  .nav-burger.is-open span::before { top: 0; transform: rotate(45deg); }
+  .nav-burger.is-open span::after { top: 0; transform: rotate(-45deg); }
   @media (min-width: 1024px) { .nav-burger { display: none; } }
+
+  /* Mobile/tablet drawer (dark, matches preview Nav.tsx) */
+  .nav-drawer-root { position: fixed; inset: 0; z-index: 70; pointer-events: none; visibility: hidden; }
+  .nav-drawer-root.is-open { pointer-events: auto; visibility: visible; }
+  .nav-drawer-backdrop { position: absolute; inset: 0; background: rgba(26,10,94,.6); opacity: 0; transition: opacity .3s ease-out; }
+  .nav-drawer-root.is-open .nav-drawer-backdrop { opacity: 1; }
+  .nav-drawer { position: absolute; top: 0; left: 0; height: 100svh; width: 270px; max-width: 85vw; background: var(--navy); box-shadow: 16px 0 40px rgba(0,0,0,.25); padding: 80px 16px 32px; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform .4s ease-out; }
+  .nav-drawer-root.is-open .nav-drawer { transform: translateX(0); }
+  @media (min-width: 640px) { .nav-drawer { padding: 96px 24px 32px; } }
+  .nav-drawer a.link { display: block; padding: 10px 0; border-bottom: 1px solid rgba(250,248,245,.1); font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--cream); text-decoration: none; transition: color .2s; }
+  @media (min-width: 640px) { .nav-drawer a.link { padding: 16px 0; font-size: 20px; } }
+  .nav-drawer a.link:hover { color: var(--lime); }
+  .nav-drawer .drawer-cta { margin-top: 16px; align-self: flex-start; background: var(--lime); color: var(--navy); border: 0; cursor: pointer; padding: 10px 20px; border-radius: 999px; font-family: var(--font-body); font-weight: 700; font-size: 13px; box-shadow: 0 4px 24px rgba(200,255,0,.25); transition: transform .3s, box-shadow .3s; }
+  @media (min-width: 640px) { .nav-drawer .drawer-cta { margin-top: 24px; padding: 14px 28px; font-size: 15px; } }
+  .nav-drawer .drawer-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(200,255,0,.35); }
+  body.drawer-open { overflow: hidden; }
   .nav-cta.mobile-hide { display: none; }
   @media (min-width: 1024px) { .nav-cta.mobile-hide { display: inline-flex; } }
   .nav-right { display: flex; align-items: center; gap: 12px; }
@@ -383,10 +402,22 @@
     </nav>
     <div class="nav-right">
       <button class="nav-cta mobile-hide" type="button" onclick="alert('Coming soon â€” leave us your email')">Book a Demo</button>
-      <button class="nav-burger" type="button" aria-label="Open menu"><span></span></button>
+      <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
     </div>
   </div>
 </header>
+
+<div class="nav-drawer-root" id="nav-drawer-root" aria-hidden="true">
+  <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+  <aside class="nav-drawer" id="nav-drawer" role="dialog" aria-label="Site menu">
+    <a href="#how-it-works" class="link">How It Works</a>
+    <a href="#origin" class="link">Our Belief</a>
+    <a href="#use-cases" class="link">Use Cases</a>
+    <a href="#pricing" class="link">Pricing</a>
+    <a href="#blog" class="link">Blog</a>
+    <button class="drawer-cta" type="button" onclick="alert('Coming soon â€” leave us your email')">Book a Demo</button>
+  </aside>
+</div>
 
 <section class="hero">
   <div class="hero-inner">
@@ -675,6 +706,26 @@
     }
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    var burger = document.getElementById('nav-burger');
+    var root = document.getElementById('nav-drawer-root');
+    var backdrop = document.getElementById('nav-drawer-backdrop');
+    var drawer = document.getElementById('nav-drawer');
+
+    function setOpen(open) {
+      root.classList.toggle('is-open', open);
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      root.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.body.classList.toggle('drawer-open', open);
+    }
+    function close() { setOpen(false); }
+
+    if (burger) burger.addEventListener('click', function () { setOpen(!root.classList.contains('is-open')); });
+    if (backdrop) backdrop.addEventListener('click', close);
+    drawer.querySelectorAll('a.link').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
   })();
 </script>
 </body>
