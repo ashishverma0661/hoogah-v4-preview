@@ -339,6 +339,10 @@
     .cover h1 { font-size: 44px; line-height: 1.06; }
     .chapter h2 { font-size: 34px; line-height: 1.1; }
   }
+
+  /* Hide chapter eyebrows + ornament breaks */
+  .chapter .eyebrow,
+  .chapter-mark { display: none; }
 </style>
 </head>
 <body>
@@ -379,14 +383,11 @@
 
 <!-- COVER -->
 <section class="cover">
-  <div class="cover-issue">Hoogah · Connection by Design · No. 03</div>
-  <div class="cover-kicker">An essay for event organizers who treat the conversation as the product.</div>
   <h1>Why Networking at Events Doesn't Work <em>(And How to Fix It)</em></h1>
   <p class="cover-sub">Most event networking sessions fall flat. Here's why unstructured networking fails — and how organizers design connection that actually sticks in 2026.</p>
 
   <div class="cover-meta">
     <div>By<b>Hoogah Editorial</b></div>
-    <div class="center">Edition<b>03 / 2026</b></div>
     <div class="right">Read<b>9 minutes</b></div>
   </div>
 </section>
@@ -394,13 +395,6 @@
 <!-- ARTICLE -->
 <main class="article">
   <div class="article-inner">
-
-    <aside class="marginalia" aria-hidden="true">
-      <div class="note">
-        <div class="lbl">In the margin</div>
-        <p>"Most events only nail Achievement (skills, content, takeaways). Hoogah is the Affiliation engine — the need to belong."</p>
-      </div>
-    </aside>
 
     <p class="lede">Every organizer has had this conversation.</p>
 
@@ -632,18 +626,6 @@
         <li>Harvard Business Review — The Limits of Networking</li>
         <li>Bizzabo — State of In-Person Events 2026</li>
       </ul>
-    </section>
-
-    <!-- AUTHOR SIGNOFF -->
-    <section class="signoff">
-      <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Author"></div>
-      <div>
-        <div class="lbl">About the Writer</div>
-        <h4>Hoogah Editorial</h4>
-        <p class="role">Connection By Design · Volume 01</p>
-        <p class="bio">Field notes from event organizers, trainers, and community builders who treat networking as a product to design — not a vibe to hope for. Written for the rooms that want to do this better.</p>
-        <p class="signature">— Until the next room.</p>
-      </div>
     </section>
 
   </div>
