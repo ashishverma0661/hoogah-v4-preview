@@ -104,11 +104,11 @@
   .hero h1 {
     margin: 28px 0 0;
     font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(38px, 7vw, 92px); line-height: 1.02; letter-spacing: -.035em;
+    font-size: 70px; line-height: 1.04; letter-spacing: -.035em;
     max-width: 980px;
   }
-  .hero h1 em { font-style: normal; color: inherit; position: relative; display: inline-block; }
-  .hero h1 em::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.03em; height: 12px; background: var(--lime); opacity: .92; z-index: -1; }
+  .hero h1 em { font-style: normal; color: inherit; position: relative; display: inline-block; z-index: 1; }
+  .hero h1 em::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.03em; height: 12px; background: var(--lime); opacity: 1; z-index: -1; }
   .hero-sub {
     margin: 32px 0 0; max-width: 660px;
     font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55;
@@ -124,7 +124,7 @@
     position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
     font-family: var(--font-display); font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
     color: rgba(250,248,245,.55);
-    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    display: none; flex-direction: column; align-items: center; gap: 14px;
   }
   .hero-scroll::after { content: ''; width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(250,248,245,.55), transparent); }
 
@@ -430,6 +430,7 @@
   /* ===== MOBILE-ONLY PADDING/MARGIN TIGHTEN (<768px) ===== */
   @media (max-width: 767px) {
     .hero { padding: 110px 18px 60px; }
+    .hero h1 { font-size: 40px; line-height: 1.06; }
     .hero-meta { margin-top: 36px; gap: 22px; }
     .article { padding: 48px 18px; }
     .article-grid { gap: 28px; }
