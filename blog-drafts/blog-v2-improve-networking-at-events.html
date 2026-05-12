@@ -28,6 +28,15 @@
   img { display: block; max-width: 100%; }
   ::selection { background: var(--lime); color: var(--navy); }
 
+  /* Premium grain */
+  .grain { position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: .04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+  }
+
+  /* Scroll progress */
+  .read-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--magenta) 0%, var(--lime) 100%); z-index: 100; transition: width .1s linear; box-shadow: 0 0 12px rgba(168,25,139,.4); }
+
   /* ===== NAV (cream) ===== */
   .nav {
     position: fixed; top: 0; inset-inline: 0; z-index: 50;
@@ -114,6 +123,76 @@
   .photo-card figcaption { margin-top: 12px; text-align: center; font-style: italic; font-size: 12px; color: rgba(26,10,94,.65); font-family: var(--font-body); }
   /* Mobile + tablet: soften the photo-card's deep bottom shadow */
   @media (max-width: 1023px) { .photo-card { box-shadow: 0 6px 16px rgba(26,10,94,.12); } }
+
+  /* AUTHOR CARD — premium intro to the essay */
+  .author-card {
+    max-width: 880px; margin: 0 auto; padding: 28px 20px 0;
+    display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center;
+  }
+  @media (min-width: 768px) { .author-card { grid-template-columns: auto 1fr auto; gap: 28px; padding: 36px 48px 0; } }
+  .author-card .avatar { width: 56px; height: 56px; border-radius: 50%; overflow: hidden; background: var(--navy); box-shadow: 0 8px 24px rgba(26,10,94,.18); }
+  .author-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .author-card .who b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--navy); letter-spacing: -.005em; margin-bottom: 4px; }
+  .author-card .who span { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--magenta); }
+  .author-card .stats { display: flex; gap: 18px; align-items: center; font-size: 12px; color: rgba(26,10,94,.6); }
+  .author-card .stats .stat b { display: block; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--navy); margin-bottom: 4px; }
+  .author-card .stats .dot { width: 4px; height: 4px; border-radius: 999px; background: rgba(26,10,94,.3); }
+  .author-card .rule { grid-column: 1 / -1; height: 1px; background: rgba(26,10,94,.15); margin-top: 4px; }
+
+  /* STAT FIGURE — V2 take: stat + ruled context column */
+  .stat-figure {
+    margin: 56px 0; display: grid; grid-template-columns: 1fr; gap: 18px;
+    border-radius: 24px; background: #fff; padding: 36px 28px;
+    box-shadow: 0 10px 30px rgba(26,10,94,.08), 0 1px 0 rgba(26,10,94,.04);
+    position: relative; overflow: hidden;
+  }
+  @media (min-width: 768px) { .stat-figure { grid-template-columns: auto 1fr; gap: 48px; padding: 52px 56px; align-items: center; } }
+  .stat-figure::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--magenta); }
+  .stat-figure .big {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(96px, 14vw, 168px); line-height: .88; letter-spacing: -.05em;
+    color: var(--navy);
+  }
+  .stat-figure .big sup { font-size: 32%; font-weight: 700; vertical-align: top; margin-left: 4px; color: var(--magenta); }
+  .stat-figure .ctx b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--magenta); margin-bottom: 12px; }
+  .stat-figure .ctx p { margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: clamp(18px, 2vw, 24px); line-height: 1.4; color: var(--navy); letter-spacing: -.01em; }
+  .stat-figure .ctx .src { display: block; margin-top: 14px; font-family: var(--font-body); font-style: normal; font-size: 12px; letter-spacing: .04em; color: rgba(26,10,94,.55); }
+
+  /* TRUST STRIP — small chips of event types */
+  .trust { margin: 56px 0; }
+  .trust .label { font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: rgba(26,10,94,.55); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+  .trust .label::before { content: ''; width: 40px; height: 1px; background: rgba(26,10,94,.4); }
+  .trust .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .trust .chip { font-family: var(--font-body); font-weight: 600; font-size: 13px; padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(26,10,94,.18); color: var(--navy); background: transparent; transition: background .2s, border-color .2s, color .2s; }
+  .trust .chip:hover { background: var(--navy); color: var(--cream); border-color: var(--navy); }
+
+  /* READ-NEXT CARDS — replaces text list */
+  .read-next-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 28px 0 0; }
+  @media (min-width: 768px) { .read-next-grid { grid-template-columns: 1fr 1fr; gap: 18px; } }
+  .read-next-card {
+    display: block; padding: 24px 22px; border-radius: 18px;
+    background: #fff; border: 1px solid rgba(26,10,94,.1);
+    text-decoration: none; transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    box-shadow: 0 1px 0 rgba(26,10,94,.04);
+  }
+  .read-next-card:hover { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(26,10,94,.12); border-color: rgba(168,25,139,.3); }
+  .read-next-card .kicker { font-family: var(--font-display); font-weight: 700; font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--magenta); display: flex; align-items: center; gap: 10px; }
+  .read-next-card .kicker::before { content: ''; width: 18px; height: 1px; background: var(--magenta); }
+  .read-next-card h4 { margin: 12px 0 0; font-family: var(--font-display); font-weight: 700; font-size: clamp(17px, 1.8vw, 20px); line-height: 1.25; letter-spacing: -.015em; color: var(--navy); }
+  .read-next-card .arrow { margin-top: 14px; font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--magenta); transition: transform .25s ease; display: inline-block; }
+  .read-next-card:hover .arrow { transform: translateX(4px); }
+
+  /* AUTHOR SIGNOFF — V2 cleaner take */
+  .signoff { margin-top: 64px; padding: 36px 28px; border-radius: 24px; background: #fff; border: 1px solid rgba(26,10,94,.1); display: grid; grid-template-columns: 1fr; gap: 22px; }
+  @media (min-width: 640px) { .signoff { grid-template-columns: 88px minmax(0, 1fr); gap: 28px; padding: 40px 44px; } }
+  .signoff .avatar { width: 88px; height: 88px; border-radius: 50%; overflow: hidden; background: var(--navy); box-shadow: 0 8px 24px rgba(26,10,94,.18); }
+  .signoff .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .signoff .end-mark { font-family: var(--font-display); font-size: 18px; color: var(--magenta); letter-spacing: .35em; margin-bottom: 16px; }
+  .signoff .end-mark::before { content: '✱  ✱  ✱'; }
+  .signoff h4 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--navy); letter-spacing: -.01em; }
+  .signoff .role { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--magenta); margin: 0 0 14px; }
+  .signoff .bio { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: rgba(26,10,94,.75); margin: 0; max-width: 560px; }
+  .signoff .signature { margin-top: 14px; font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--navy); letter-spacing: -.01em; }
 
   /* ===== ARTICLE ===== */
   .article { background: var(--cream); padding: 24px 20px 80px; }
@@ -296,6 +375,9 @@
 </head>
 <body>
 
+<div class="grain" aria-hidden="true"></div>
+<div class="read-progress" id="read-progress" aria-hidden="true"></div>
+
 <header class="nav" id="nav">
   <div class="nav-row">
     <a href="/v2" class="nav-brand" aria-label="Hoogah home">
@@ -348,6 +430,20 @@
   </div>
 </section>
 
+<section class="author-card" aria-label="Article meta">
+  <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=240&q=80" alt=""></div>
+  <div class="who">
+    <b>Hoogah Editorial</b>
+    <span>Connection By Design · Vol. 01</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>Read</b>9 min</div>
+    <span class="dot" aria-hidden="true"></span>
+    <div class="stat"><b>Posted</b>May 2026</div>
+  </div>
+  <div class="rule" aria-hidden="true"></div>
+</section>
+
 <main class="article">
   <div class="article-inner">
 
@@ -361,6 +457,29 @@
       <p>That's not an attendee problem. That's a design problem. And the good news? It's a fixable one.</p>
       <p>Here's exactly what's going wrong at your networking sessions — and how the smartest organizers in 2026 are designing networking that actually works.</p>
     </div>
+
+    <!-- STAT FIGURE -->
+    <figure class="stat-figure">
+      <div class="big">76<sup>%</sup></div>
+      <figcaption class="ctx">
+        <b>The Paradox</b>
+        <p>of professionals rank networking as a top reason for attending in person — and rate it as the worst part of the experience.</p>
+        <span class="src">Source: Eventbrite Pulse Report</span>
+      </figcaption>
+    </figure>
+
+    <!-- TRUST STRIP -->
+    <section class="trust" aria-label="Where designed networking shows up">
+      <div class="label">Where this shows up</div>
+      <div class="chips">
+        <span class="chip">Corporate offsites</span>
+        <span class="chip">Founder summits</span>
+        <span class="chip">Training cohorts</span>
+        <span class="chip">Investor dinners</span>
+        <span class="chip">AI &amp; tech meetups</span>
+        <span class="chip">Community days</span>
+      </div>
+    </section>
 
     <!-- DIAGNOSIS -->
     <div class="section">
@@ -577,13 +696,33 @@
     <!-- FURTHER READING -->
     <section class="further">
       <div class="section-eyebrow"><span></span><b>Further Reading</b></div>
-      <ul class="further-list">
-        <li>How to Facilitate Networking Without It Feeling Awkward</li>
-        <li>Why Event Engagement Feels High — But Connection Is Low</li>
-        <li>How to Measure Networking ROI at Your Event</li>
-        <li>Why Networking Should Start Before Your Event Does</li>
-        <li>Why Attendees Don't Know Who to Talk To at Events</li>
-      </ul>
+      <div class="read-next-grid">
+        <a href="#" class="read-next-card">
+          <div class="kicker">Facilitation</div>
+          <h4>How to Facilitate Networking Without It Feeling Awkward</h4>
+          <span class="arrow">Read essay →</span>
+        </a>
+        <a href="#" class="read-next-card">
+          <div class="kicker">Diagnosis</div>
+          <h4>Why Event Engagement Feels High — But Connection Is Low</h4>
+          <span class="arrow">Read essay →</span>
+        </a>
+        <a href="#" class="read-next-card">
+          <div class="kicker">Measurement</div>
+          <h4>How to Measure Networking ROI at Your Event</h4>
+          <span class="arrow">Read essay →</span>
+        </a>
+        <a href="#" class="read-next-card">
+          <div class="kicker">Pre-event</div>
+          <h4>Why Networking Should Start Before Your Event Does</h4>
+          <span class="arrow">Read essay →</span>
+        </a>
+        <a href="#" class="read-next-card">
+          <div class="kicker">Attendee experience</div>
+          <h4>Why Attendees Don't Know Who to Talk To at Events</h4>
+          <span class="arrow">Read essay →</span>
+        </a>
+      </div>
     </section>
 
     <!-- SOURCES -->
@@ -594,6 +733,18 @@
         <li>Harvard Business Review — The Limits of Networking</li>
         <li>Bizzabo — State of In-Person Events 2026</li>
       </ul>
+    </section>
+
+    <!-- AUTHOR SIGNOFF -->
+    <section class="signoff">
+      <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Author"></div>
+      <div>
+        <div class="end-mark" aria-hidden="true"></div>
+        <h4>Hoogah Editorial</h4>
+        <p class="role">Connection By Design · Vol. 01</p>
+        <p class="bio">Field notes from event organizers, trainers, and community builders who treat networking as a product to design — not a vibe to hope for. Written for the rooms that want to do this better.</p>
+        <p class="signature">— Until the next room.</p>
+      </div>
     </section>
 
   </div>
@@ -629,6 +780,17 @@
     }
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Reading progress bar
+    var progress = document.getElementById('read-progress');
+    function updateProgress() {
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var p = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+      if (progress) progress.style.width = p + '%';
+    }
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
 
     var burger = document.getElementById('nav-burger');
     var root = document.getElementById('nav-drawer-root');
