@@ -205,7 +205,7 @@
   .pullquote-bleed p {
     margin: 80px auto 0; max-width: 880px;
     font-family: var(--font-display); font-style: italic; font-weight: 500;
-    font-size: clamp(24px, 3.4vw, 44px); line-height: 1.28; color: var(--cream); letter-spacing: -.02em;
+    font-size: 36px; line-height: 1.28; color: var(--cream); letter-spacing: -.02em;
     text-align: center;
   }
   .pullquote-bleed cite { display: block; text-align: center; margin: 28px auto 24px; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 11px; letter-spacing: .42em; text-transform: uppercase; color: var(--lime); }
@@ -312,11 +312,16 @@
     .stat .big { font-size: 88px; }
     .pullquote-bleed { padding: 48px 20px; margin: 48px 0; }
     .pullquote-bleed::before { font-size: 96px; top: 8px; }
-    .pullquote-bleed p { margin-top: 48px; }
+    .pullquote-bleed p { font-size: 22px; margin-top: 48px; }
     .invitation { padding: 36px 22px; margin-top: 48px; }
     .signoff { padding: 28px 20px; margin-top: 48px; }
     .further { margin-top: 48px; }
     .sources { margin-top: 40px; padding-top: 26px; }
+  }
+
+  /* H1 tablet-only override (768–1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero h1 { font-size: 46px; line-height: 1.06; }
   }
 </style>
 </head>
