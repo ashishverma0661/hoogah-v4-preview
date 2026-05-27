@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why Networking Should Start Before Your Event Does | Hoogah</title>
+<link rel="canonical" href="https://hoogah.com/blog/start-networking-before-the-event">
+<meta name="description" content="The room sorts itself in the first 90 seconds. By then it's too late. Here's why the smartest organizers in 2026 start matching attendees before doors open.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf8f5;
+    --navy: #1a0a5e;
+    --magenta: #a8198b;
+    --lime: #c8ff00;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--cream); color: var(--navy);
+    font-family: var(--font-body); -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: var(--lime); color: var(--navy); }
+
+  /* Premium grain — fixed overlay, blends with everything */
+  .grain { position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: .045; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+  }
+
+  /* Scroll progress bar */
+  .read-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--lime) 0%, var(--magenta) 100%); z-index: 100; transition: width .1s linear; box-shadow: 0 0 12px rgba(200,255,0,.5); }
+
+  /* ===== NAV (dark, sticky) ===== */
+  .nav {
+    position: fixed; top: 0; inset-inline: 0; z-index: 50;
+    transition: background .3s ease, box-shadow .3s ease, transform .3s ease;
+  }
+  .nav.scrolled {
+    background: rgba(26,10,94,.85); backdrop-filter: blur(10px);
+    box-shadow: 0 4px 24px rgba(0,0,0,.25);
+  }
+  .nav-row { max-width: 1440px; margin: 0 auto; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .nav-brand { display: block; line-height: 0; }
+  .nav-brand img { display: block; height: 26px; width: auto; }
+  @media (min-width: 1024px) { .nav-brand img { height: 32px; } }
+  .nav-links { display: none; gap: 30px; }
+  .nav-links a { color: rgba(250,248,245,.9); text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s; }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-cta { background: var(--lime); color: var(--navy); padding: 12px 22px; border-radius: 999px; font-weight: 700; font-size: 14px; border: 0; cursor: pointer; transition: transform .3s, box-shadow .3s; box-shadow: 0 4px 24px rgba(200,255,0,.25); font-family: var(--font-body); }
+  .nav-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(200,255,0,.35); filter: brightness(.96); }
+  @media (min-width: 1024px) { .nav-row { padding: 28px 48px; } .nav-links { display: flex; } }
+
+  /* Mobile hamburger (decorative, matches preview) */
+  .nav-burger { display: inline-flex; align-items: center; justify-content: center; height: 40px; width: 40px; border-radius: 999px; border: 1px solid rgba(250,248,245,.3); background: transparent; cursor: pointer; transition: background .2s; position: relative; z-index: 80; }
+  .nav-burger:hover { background: rgba(250,248,245,.1); }
+  .nav-burger span { display: block; width: 18px; height: 1.5px; background: var(--cream); position: relative; transition: background-color .15s ease; }
+  .nav-burger span::before, .nav-burger span::after { content: ''; position: absolute; left: 0; width: 18px; height: 1.5px; background: var(--cream); transition: transform .3s cubic-bezier(.4,0,.2,1), top .3s cubic-bezier(.4,0,.2,1); }
+  .nav-burger span::before { top: -6px; } .nav-burger span::after { top: 6px; }
+  .nav-burger.is-open span { background-color: transparent; }
+  .nav-burger.is-open span::before { top: 0; transform: rotate(45deg); }
+  .nav-burger.is-open span::after { top: 0; transform: rotate(-45deg); }
+  @media (min-width: 1024px) { .nav-burger { display: none; } }
+
+  /* Mobile/tablet drawer (dark, matches preview Nav.tsx) */
+  .nav-drawer-root { position: fixed; inset: 0; z-index: 70; pointer-events: none; visibility: hidden; }
+  .nav-drawer-root.is-open { pointer-events: auto; visibility: visible; }
+  .nav-drawer-backdrop { position: absolute; inset: 0; background: rgba(26,10,94,.6); opacity: 0; transition: opacity .3s ease-out; }
+  .nav-drawer-root.is-open .nav-drawer-backdrop { opacity: 1; }
+  .nav-drawer { position: absolute; top: 0; left: 0; height: 100svh; width: 270px; max-width: 85vw; background: var(--navy); box-shadow: 16px 0 40px rgba(0,0,0,.25); padding: 80px 16px 32px; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform .4s ease-out; }
+  .nav-drawer-root.is-open .nav-drawer { transform: translateX(0); }
+  @media (min-width: 640px) { .nav-drawer { padding: 96px 24px 32px; } }
+  .nav-drawer a.link { display: block; padding: 10px 0; border-bottom: 1px solid rgba(250,248,245,.1); font-family: var(--font-display); font-weight: 600; font-size: 15px; color: var(--cream); text-decoration: none; transition: color .2s; }
+  @media (min-width: 640px) { .nav-drawer a.link { padding: 16px 0; font-size: 20px; } }
+  .nav-drawer a.link:hover { color: var(--lime); }
+  .nav-drawer .drawer-cta { margin-top: 16px; align-self: flex-start; background: var(--lime); color: var(--navy); border: 0; cursor: pointer; padding: 10px 20px; border-radius: 999px; font-family: var(--font-body); font-weight: 700; font-size: 13px; box-shadow: 0 4px 24px rgba(200,255,0,.25); transition: transform .3s, box-shadow .3s; }
+  @media (min-width: 640px) { .nav-drawer .drawer-cta { margin-top: 24px; padding: 14px 28px; font-size: 15px; } }
+  .nav-drawer .drawer-cta:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(200,255,0,.35); }
+  body.drawer-open { overflow: hidden; }
+  .nav-cta.mobile-hide { display: none; }
+  @media (min-width: 1024px) { .nav-cta.mobile-hide { display: inline-flex; } }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+
+  /* ===== HERO (dark navy photo) ===== */
+  .hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; background: var(--navy); color: var(--cream); padding: 130px 20px 80px; display: flex; align-items: center; }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -2;
+    background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=2400&q=80');
+    background-size: cover; background-position: center;
+  }
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(95deg, rgba(26,10,94,.95) 0%, rgba(26,10,94,.82) 38%, rgba(26,10,94,.55) 75%, rgba(26,10,94,.42) 100%);
+  }
+  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: .27em; text-transform: uppercase; color: var(--lime); }
+  .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--lime); }
+  .hero h1 {
+    margin: 28px 0 0;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 70px; line-height: 1.04; letter-spacing: -.035em;
+    max-width: 980px;
+  }
+  .hero h1 em { font-style: normal; color: inherit; position: relative; display: inline-block; z-index: 1; }
+  .hero h1 em::after { display: none; }
+  .hero-sub {
+    margin: 32px 0 0; max-width: 660px;
+    font-size: clamp(17px, 1.5vw, 21px); line-height: 1.55;
+    color: rgba(250,248,245,.85);
+  }
+  .hero-meta {
+    margin-top: 56px; display: flex; flex-wrap: wrap; gap: 36px;
+    font-family: var(--font-display); font-size: 12px; font-weight: 500;
+    letter-spacing: .23em; text-transform: uppercase; color: rgba(250,248,245,.62);
+  }
+  .hero-meta strong { display: block; color: var(--cream); font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: none; margin-top: 4px; }
+  .hero-scroll {
+    position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+    font-family: var(--font-display); font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
+    color: rgba(250,248,245,.55);
+    display: none; flex-direction: column; align-items: center; gap: 14px;
+  }
+  .hero-scroll::after { content: ''; width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(250,248,245,.55), transparent); }
+
+  /* Edition stamp — premium magazine ribbon top-right of hero */
+  .edition-stamp { position: absolute; top: 110px; right: 28px; z-index: 5; display: none; }
+  @media (min-width: 1024px) { .edition-stamp { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; top: 140px; right: 48px; } }
+  .edition-stamp .seal { width: 88px; height: 88px; border-radius: 50%; border: 1.5px solid rgba(200,255,0,.55); display: flex; flex-direction: column; align-items: center; justify-content: center; transform: rotate(8deg); position: relative; backdrop-filter: blur(4px); background: rgba(26,10,94,.18); }
+  .edition-stamp .seal::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; border: 1px dashed rgba(200,255,0,.32); }
+  .edition-stamp .seal .top { font-family: var(--font-display); font-size: 9px; font-weight: 700; letter-spacing: .28em; color: var(--lime); text-transform: uppercase; }
+  .edition-stamp .seal .mid { font-family: var(--font-display); font-size: 26px; font-weight: 800; color: var(--cream); line-height: 1; margin-top: 2px; letter-spacing: -.03em; }
+  .edition-stamp .seal .bot { font-family: var(--font-display); font-size: 8px; font-weight: 600; letter-spacing: .28em; color: rgba(250,248,245,.65); text-transform: uppercase; margin-top: 4px; }
+
+  /* ===== ARTICLE ===== */
+  .article { background: var(--cream); padding: 80px 20px; }
+  @media (min-width: 1024px) { .article { padding: 120px 48px; } }
+  .article-grid { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 48px; }
+  @media (min-width: 1024px) { .article-grid { grid-template-columns: 240px minmax(0, 1fr); gap: 64px; } }
+
+  /* SIDEBAR */
+  .sidebar-inner { position: sticky; top: 120px; }
+  .sidebar .label { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .27em; text-transform: uppercase; color: rgba(26,10,94,.55); }
+  .sidebar h4 { margin: 14px 0 0; font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--navy); font-style: italic; letter-spacing: -.005em; }
+  .sidebar-meta { margin-top: 28px; padding-top: 22px; border-top: 1px solid rgba(26,10,94,.18); display: flex; flex-direction: column; gap: 18px; font-family: var(--font-body); font-size: 13px; color: rgba(26,10,94,.72); line-height: 1.5; }
+  .sidebar-meta b { display: block; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: .27em; text-transform: uppercase; color: var(--magenta); margin-bottom: 5px; }
+
+  /* PROSE */
+  .prose { max-width: 740px; }
+  .prose > * { margin: 0 0 22px; }
+  .prose p { font-size: 18px; line-height: 1.7; color: rgba(26,10,94,.85); }
+  .prose p strong { color: var(--navy); font-weight: 600; }
+  .prose a { color: var(--magenta); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+  .lede {
+    font-family: var(--font-display); font-weight: 500;
+    font-size: clamp(22px, 2.4vw, 28px); line-height: 1.4;
+    color: var(--navy); letter-spacing: -.015em;
+    margin-bottom: 28px !important;
+  }
+  .lede::first-letter {
+    float: left;
+    font-family: var(--font-display); font-weight: 800;
+    font-size: 88px; line-height: .85;
+    margin: 6px 14px 0 -2px;
+    color: var(--magenta);
+  }
+
+  /* SECTION HEAD */
+  .section-head {
+    margin-top: 80px; margin-bottom: 32px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+    border-bottom: 1px solid rgba(26,10,94,.22); padding-bottom: 20px;
+    max-width: 740px;
+  }
+  .section-head h2 {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(28px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -.025em;
+    color: var(--navy); margin: 0;
+  }
+  .section-head .sigil {
+    font-family: var(--font-display); font-size: 11px; font-weight: 600;
+    letter-spacing: .27em; text-transform: uppercase; color: rgba(26,10,94,.5);
+    white-space: nowrap;
+  }
+
+  /* REASON CARD */
+  .reason {
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+    padding: 36px 0; border-bottom: 1px solid rgba(26,10,94,.18);
+    max-width: 940px;
+  }
+  @media (min-width: 768px) { .reason { grid-template-columns: 160px minmax(0, 1fr); gap: 40px; } }
+  .reason-num { display: flex; align-items: baseline; gap: 12px; }
+  @media (min-width: 768px) { .reason-num { display: block; } }
+  .reason-num .big {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(76px, 9vw, 116px); line-height: .85;
+    letter-spacing: -.04em; color: var(--magenta);
+  }
+  .reason-num .meta {
+    margin-top: 12px;
+    font-family: var(--font-display); font-size: 11px; font-weight: 600;
+    letter-spacing: .27em; text-transform: uppercase; color: rgba(26,10,94,.5);
+  }
+  .reason-body h3 {
+    margin: 0 0 16px;
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 30px); line-height: 1.2; letter-spacing: -.02em;
+    color: var(--navy);
+  }
+  .reason-body p { margin: 0 0 14px; font-size: 17px; line-height: 1.65; color: rgba(26,10,94,.8); }
+  .reason-body .fix {
+    margin-top: 20px; padding: 22px 26px;
+    background: rgba(168,25,139,.06); border-left: 3px solid var(--magenta);
+    border-radius: 0 8px 8px 0;
+  }
+  .reason-body .fix b {
+    display: block; font-family: var(--font-display); font-size: 11px; letter-spacing: .27em;
+    text-transform: uppercase; color: var(--magenta); font-weight: 700; margin-bottom: 10px;
+  }
+  .reason-body .fix p { margin: 0; font-size: 16px; line-height: 1.65; color: var(--navy); }
+  .reason-body .fix p + p { margin-top: 12px; }
+
+  /* TRIBES LIST */
+  .tribes { margin: 0; padding: 0; list-style: none; max-width: 740px; }
+  .tribes li {
+    counter-increment: tribe;
+    padding: 22px 0 22px 64px;
+    border-top: 1px solid rgba(26,10,94,.18);
+    position: relative; font-size: 17px; line-height: 1.55; color: rgba(26,10,94,.82);
+  }
+  .tribes li:last-child { border-bottom: 1px solid rgba(26,10,94,.18); }
+  .tribes li::before {
+    content: counter(tribe, decimal-leading-zero);
+    position: absolute; left: 0; top: 22px;
+    font-family: var(--font-display); font-weight: 700; font-size: 22px;
+    color: var(--magenta); letter-spacing: -.02em;
+  }
+  .tribes b {
+    display: block; font-family: var(--font-display); font-weight: 600;
+    font-size: 18px; color: var(--navy); margin-bottom: 6px; letter-spacing: -.005em;
+  }
+
+  /* POLAROID — stacked premium variant */
+  .polaroid-wrap { margin: 64px auto; display: flex; justify-content: center; max-width: 740px; position: relative; }
+  .polaroid {
+    position: relative; padding: 14px 14px 56px;
+    background: #fff; box-shadow: 0 24px 48px rgba(26,10,94,.22), 0 4px 12px rgba(26,10,94,.08);
+    max-width: 360px; border-radius: 4px;
+  }
+  .polaroid::before {
+    content: ''; position: absolute; top: -14px; left: 30%; width: 92px; height: 26px;
+    background: var(--lime); opacity: .9; transform: rotate(-7deg);
+    box-shadow: 0 2px 6px rgba(26,10,94,.18);
+  }
+  .polaroid img { width: 100%; height: 320px; object-fit: cover; border-radius: 2px; }
+  .polaroid figcaption {
+    position: absolute; bottom: 16px; left: 0; right: 0; text-align: center;
+    font-family: var(--font-display); font-style: italic; font-size: 14px;
+    color: rgba(26,10,94,.65);
+  }
+  .polaroid-stack { position: relative; }
+  .polaroid-stack .polaroid.back {
+    position: absolute; top: 12px; left: -36px; transform: rotate(-7deg); opacity: .9;
+    z-index: 0;
+  }
+  .polaroid-stack .polaroid.front { transform: rotate(2.5deg); z-index: 1; }
+  @media (max-width: 640px) {
+    .polaroid-stack .polaroid.back { display: none; }
+    .polaroid-stack .polaroid.front { transform: rotate(-1.5deg); }
+  }
+
+  /* STAT FIGURE — huge editorial number */
+  .stat-figure { margin: 64px 0; padding: 48px 0; border-top: 2px solid var(--navy); border-bottom: 1px solid rgba(26,10,94,.18); display: grid; grid-template-columns: 1fr; gap: 24px; align-items: end; max-width: 940px; }
+  @media (min-width: 768px) { .stat-figure { grid-template-columns: minmax(0, auto) minmax(0, 1fr); gap: 56px; } }
+  .stat-figure .num {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(120px, 18vw, 220px); line-height: .82; letter-spacing: -.06em;
+    color: var(--navy); position: relative; display: inline-block;
+  }
+  .stat-figure .num sup { font-size: 28%; font-weight: 700; vertical-align: top; margin-left: 4px; color: var(--magenta); letter-spacing: 0; }
+  .stat-figure .num::after { content: ''; position: absolute; left: 0; right: 12%; bottom: 8px; height: 16px; background: var(--lime); z-index: -1; opacity: .85; }
+  .stat-figure .caption {
+    font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: clamp(18px, 2vw, 24px); line-height: 1.4; color: var(--navy);
+    max-width: 480px; letter-spacing: -.01em;
+  }
+  .stat-figure .caption b { display: block; margin-bottom: 10px; font-family: var(--font-display); font-style: normal; font-weight: 700; font-size: 11px; letter-spacing: .27em; text-transform: uppercase; color: var(--magenta); }
+  .stat-figure .caption .src { display: block; margin-top: 16px; font-family: var(--font-body); font-style: normal; font-size: 12px; letter-spacing: .04em; color: rgba(26,10,94,.55); }
+
+  /* CHAPTER ORNAMENT — between major sections */
+  .chapter-mark { margin: 56px 0 32px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .chapter-mark::before, .chapter-mark::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: rgba(26,10,94,.2); }
+  .chapter-mark span { font-family: var(--font-display); font-size: 18px; color: var(--magenta); letter-spacing: .3em; }
+
+  /* AUTHOR SIGNOFF — end-of-essay editorial close */
+  .signoff { margin-top: 72px; padding: 36px 0 24px; border-top: 2px solid var(--navy); display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 740px; }
+  @media (min-width: 640px) { .signoff { grid-template-columns: 88px minmax(0, 1fr); gap: 28px; align-items: start; } }
+  .signoff .avatar {
+    width: 88px; height: 88px; border-radius: 50%; overflow: hidden;
+    background: var(--navy); position: relative;
+    box-shadow: 0 8px 24px rgba(26,10,94,.18);
+  }
+  .signoff .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .signoff .end-mark { font-family: var(--font-display); font-size: 22px; color: var(--magenta); letter-spacing: .4em; margin-bottom: 18px; }
+  .signoff .end-mark::before { content: '✱  ✱  ✱'; }
+  .signoff h4 { margin: 0 0 6px; font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--navy); letter-spacing: -.01em; }
+  .signoff .role { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; color: var(--magenta); margin: 0 0 14px; }
+  .signoff .bio { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: rgba(26,10,94,.75); margin: 0; max-width: 560px; }
+  .signoff .signature { margin-top: 14px; font-family: var(--font-display); font-style: italic; font-size: 18px; color: var(--navy); letter-spacing: -.01em; }
+
+  /* PULLQUOTE (Beliefs #05 style — navy block w/ giant lime numeral) */
+  .pullquote {
+    margin: 72px 0 60px; padding: 52px 36px;
+    background: var(--navy); color: var(--cream); border-radius: 4px;
+    position: relative; overflow: hidden; max-width: 940px;
+  }
+  @media (min-width: 768px) { .pullquote { padding: 64px 56px; } }
+  .pullquote::before {
+    content: '05'; position: absolute; right: -18px; bottom: -42px;
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 280px; line-height: .85; color: var(--lime); opacity: .14;
+    letter-spacing: -.04em;
+  }
+  .pullquote .tag {
+    font-family: var(--font-display); font-size: 11px; font-weight: 600;
+    letter-spacing: .27em; text-transform: uppercase; color: var(--lime);
+    margin-bottom: 22px;
+  }
+  .pullquote p {
+    margin: 0; font-family: var(--font-display); font-style: italic; font-weight: 500;
+    font-size: clamp(22px, 2.6vw, 32px); line-height: 1.35; letter-spacing: -.015em;
+    max-width: 700px; color: var(--cream); position: relative; z-index: 1;
+  }
+  .pullquote cite {
+    display: block; margin-top: 26px; font-style: normal;
+    font-family: var(--font-body); font-size: 13px; letter-spacing: .04em;
+    color: rgba(250,248,245,.7);
+  }
+
+  /* STACK LIST */
+  .stack-list { margin: 0; padding: 0; list-style: none; counter-reset: stack; max-width: 940px; }
+  .stack-list li {
+    counter-increment: stack;
+    display: grid; grid-template-columns: 76px 1fr; gap: 24px; align-items: start;
+    padding: 26px 0; border-top: 1px solid rgba(26,10,94,.18);
+  }
+  .stack-list li:last-child { border-bottom: 1px solid rgba(26,10,94,.18); }
+  .stack-list li::before {
+    content: counter(stack, decimal-leading-zero);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 36px; line-height: 1; color: var(--magenta); letter-spacing: -.03em;
+  }
+  .stack-list .body b {
+    display: block; font-family: var(--font-display); font-weight: 600;
+    font-size: 19px; color: var(--navy); margin-bottom: 6px; letter-spacing: -.005em;
+  }
+  .stack-list .body p { margin: 0; font-size: 16px; line-height: 1.6; color: rgba(26,10,94,.78); }
+
+  /* HOOGAH INVITATION (Beliefs final block style) */
+  .invitation {
+    margin-top: 80px; padding: 52px 28px;
+    background: var(--navy); color: var(--cream); border-radius: 24px;
+    position: relative; overflow: hidden; max-width: 980px;
+  }
+  @media (min-width: 768px) { .invitation { padding: 64px 56px; } }
+  .invitation::before {
+    content: '✱'; position: absolute; top: 18px; left: 24px;
+    font-family: var(--font-display); font-size: 72px; line-height: 1; color: rgba(200,255,0,.9);
+  }
+  .invitation .tag { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .27em; text-transform: uppercase; color: var(--lime); margin: 0 0 16px 84px; }
+  .invitation h3 { margin: 0 0 20px 84px; font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -.03em; max-width: 600px; }
+  .invitation p { margin: 0 0 24px 84px; font-size: 15px; line-height: 1.65; color: rgba(250,248,245,.82); max-width: 520px; }
+  .invitation .actions { margin-left: 84px; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; }
+  .btn-magenta {
+    background: var(--magenta); color: var(--cream); border: 0; cursor: pointer;
+    padding: 16px 30px; border-radius: 999px;
+    font-family: var(--font-body); font-weight: 700; font-size: 15px;
+    box-shadow: 0 4px 24px rgba(168,25,139,.25);
+    transition: transform .3s, box-shadow .3s, filter .3s;
+  }
+  .btn-magenta:hover { transform: translateY(-3px); filter: brightness(1.08); box-shadow: 0 12px 40px rgba(168,25,139,.4); }
+  .link-lime { color: var(--lime); font-family: var(--font-body); font-size: 13px; font-weight: 600; text-decoration: none; }
+  .link-lime:hover { filter: brightness(1.1); }
+
+  /* FURTHER READING */
+  .further { margin-top: 80px; max-width: 740px; }
+  .further .label { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .27em; text-transform: uppercase; color: var(--magenta); margin-bottom: 14px; }
+  .further h3 { margin: 0 0 26px; font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3vw, 32px); letter-spacing: -.02em; color: var(--navy); }
+  .further ul { list-style: none; padding: 0; margin: 0; }
+  .further li {
+    padding: 18px 0; border-top: 1px solid rgba(26,10,94,.18);
+    font-family: var(--font-display); font-size: clamp(17px, 1.8vw, 21px); font-weight: 500;
+    color: var(--navy); transition: color .25s, padding .25s; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .further li:last-child { border-bottom: 1px solid rgba(26,10,94,.18); }
+  .further li:hover { color: var(--magenta); padding-left: 8px; }
+  .further li::after { content: '→'; color: var(--magenta); opacity: 0; transition: opacity .25s, transform .25s; }
+  .further li:hover::after { opacity: 1; transform: translateX(4px); }
+
+  /* SOURCES */
+  .sources { margin-top: 56px; padding-top: 32px; border-top: 1px solid rgba(26,10,94,.22); max-width: 740px; }
+  .sources .label { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .27em; text-transform: uppercase; color: rgba(26,10,94,.55); margin-bottom: 14px; }
+  .sources ul { list-style: none; padding: 0; margin: 0; }
+  .sources li { font-size: 13px; line-height: 1.8; color: rgba(26,10,94,.68); font-family: var(--font-body); }
+
+  /* FOOTER */
+  .site-footer { background: var(--cream); padding: 30px 20px 30px; border-top: 1px solid rgba(26,10,94,.15); }
+  .site-footer-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 18px; align-items: end; }
+  /* Tablet: 2-col same as desktop, padding stays at 30px */
+  @media (min-width: 768px) { .site-footer-inner { grid-template-columns: 1fr 1fr; } .site-footer .right { text-align: right; } }
+  /* Desktop: restore larger padding */
+  @media (min-width: 1024px) { .site-footer { padding: 64px 20px 48px; } }
+  .site-footer .brand img { display: block; height: 36px; width: auto; }
+  .site-footer .meta { margin-top: 10px; font-size: 12px; font-weight: 500; color: rgba(26,10,94,.55); }
+  .site-footer .right { font-size: 12px; font-weight: 500; color: rgba(26,10,94,.7); }
+  .site-footer .end { margin-top: 8px; font-family: var(--font-display); font-style: italic; font-size: 11px; letter-spacing: .04em; color: rgba(26,10,94,.42); }
+  .site-footer .socials { margin-bottom: 12px; display: flex; gap: 12px; }
+  @media (min-width: 768px) { .site-footer .socials { justify-content: flex-end; } }
+  .site-footer .socials a { color: rgba(26,10,94,.7); transition: color .2s; line-height: 0; }
+  .site-footer .socials a:hover { color: var(--navy); }
+  .site-footer .socials svg { width: 20px; height: 20px; }
+
+  /* ===== MOBILE-ONLY PADDING/MARGIN TIGHTEN (<768px) ===== */
+  @media (max-width: 767px) {
+    .hero { padding: 30px 18px 30px; }
+    .hero h1 { font-size: 40px; line-height: 1.06; }
+    .hero-meta { margin-top: 36px; gap: 22px; }
+    .article { padding: 48px 18px; }
+    .article-grid { gap: 28px; }
+    .section-head { margin-top: 48px; margin-bottom: 22px; padding-bottom: 16px; gap: 10px; flex-direction: column-reverse; align-items: flex-start; }
+    .section-head .sigil { font-size: 10px; letter-spacing: .24em; }
+    .reason { padding: 26px 0; gap: 16px; }
+    .reason-body .fix { padding: 18px 20px; }
+    .pullquote { margin: 48px 0 40px; padding: 36px 22px; }
+    .pullquote::before { font-size: 180px; bottom: -28px; right: -12px; }
+    .stack-list li { padding: 22px 0; gap: 18px; grid-template-columns: 60px 1fr; }
+    .polaroid-wrap { margin: 36px auto; }
+    .invitation { margin-top: 56px; padding: 36px 22px; }
+    .invitation::before { font-size: 52px; left: 18px; top: 14px; }
+    .invitation .tag,
+    .invitation h3,
+    .invitation p,
+    .invitation .actions { margin-left: 64px; }
+    .further { margin-top: 56px; }
+    .sources { margin-top: 40px; padding-top: 26px; }
+    .lede::first-letter { font-size: 64px; margin: 4px 10px 0 -2px; }
+  }
+
+  /* H1 + H2 tablet-only override (768–1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .hero { padding: 80px 20px 30px; min-height: auto; }
+    .hero h1 { font-size: 44px; line-height: 1.06; }
+    .section-head h2 { font-size: 34px; line-height: 1.1; }
+  }
+
+  /* Hide section sigils */
+  .section-head .sigil { display: none; }
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="read-progress" id="read-progress" aria-hidden="true"></div>
+
+<header class="nav" id="nav">
+  <div class="nav-row">
+    <a href="/" class="nav-brand" aria-label="Hoogah home">
+      <img src="../public/images/brand/logo-white-tight.png" alt="Hoogah">
+    </a>
+    <nav class="nav-links">
+      <a href="#how-it-works">How It Works</a>
+      <a href="#origin">Our Belief</a>
+      <a href="#use-cases">Use Cases</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#blog">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <button class="nav-cta mobile-hide" type="button" onclick="window.location.href='mailto:khushi@hoogah.app?subject=Hoogah%20Demo'">Book a Demo</button>
+      <button class="nav-burger" id="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-drawer"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-drawer-root" id="nav-drawer-root" aria-hidden="true">
+  <div class="nav-drawer-backdrop" id="nav-drawer-backdrop"></div>
+  <aside class="nav-drawer" id="nav-drawer" role="dialog" aria-label="Site menu">
+    <a href="#how-it-works" class="link">How It Works</a>
+    <a href="#origin" class="link">Our Belief</a>
+    <a href="#use-cases" class="link">Use Cases</a>
+    <a href="#pricing" class="link">Pricing</a>
+    <a href="#blog" class="link">Blog</a>
+    <button class="drawer-cta" type="button" onclick="window.location.href='mailto:khushi@hoogah.app?subject=Hoogah%20Demo'">Book a Demo</button>
+  </aside>
+</div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Why Networking Should Start <em>Before</em> Your Event Does</h1>
+    <p class="hero-sub">The room sorts itself in the first 90 seconds. By then it's too late. The smartest organizers in 2026 start matching attendees the moment registration closes — not when the doors open.</p>
+    <div class="hero-meta">
+      <span>Reading time<strong>8 minutes</strong></span>
+      <span>For<strong>Organizers · Community builders</strong></span>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll for the playbook</div>
+</section>
+
+<main class="article">
+  <div class="article-grid">
+
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="label">Hoogah · Essays</div>
+        <div class="sidebar-meta">
+          <div><b>Topic</b>Pre-event design · Matchmaking</div>
+          <div><b>Read for</b>Organizers, community builders, ops leads</div>
+          <div><b>Stage</b>Pre-event planning</div>
+        </div>
+      </div>
+    </aside>
+
+    <article class="prose">
+
+      <p class="lede">The room had already decided.</p>
+
+      <p>It's the moment most organizers miss. You think networking begins at 9:01am, when the welcome coffee starts pouring and the lanyards come out. It doesn't. It began three weeks earlier, when the attendee list went live and the first few people started searching each other on LinkedIn at midnight.</p>
+
+      <p>By the time your guests walk into the venue, the room has already organized itself. The people who came in with names already in their phone are pulling each other aside before they've even hit the registration desk. The ones who didn't are standing in line for coffee.</p>
+
+      <p>Bizzabo's 2026 Event Insights report puts a number on it: <strong>68% of attendees say their most valuable connection of the conference happened within the first hour</strong>. Yet most organizers spend zero budget, zero design effort, and zero technology on that hour. They spend it on day two.</p>
+
+      <p>That's not just a missed moment. It's the entire event compounding off a starting condition you never set.</p>
+
+      <p>Here's why pre-event networking is the lever almost no one is pulling. And how the smartest organizers in 2026 are designing it on purpose.</p>
+
+      <!-- STAT FIGURE -->
+      <figure class="stat-figure">
+        <div class="num">68<sup>%</sup></div>
+        <figcaption class="caption">
+          <b>The Number</b>
+          of attendees say their most valuable connection of the conference happened within the first hour. Most organizers design nothing for that hour.
+          <span class="src">Source: Bizzabo Event Insights 2026</span>
+        </figcaption>
+      </figure>
+
+      <!-- DIAGNOSIS -->
+      <div class="section-head">
+        <h2>The 90 Seconds Before Your Event Ever Starts</h2>
+        <span class="sigil">§ 01 · Diagnosis</span>
+      </div>
+
+      <p>Look at your attendee list the week before doors open. Watch the inbox replies, the LinkedIn requests, the calendar holds. You'll see the same five tribes form, every single time, before anyone has set foot on site:</p>
+
+      <ol class="tribes" style="counter-reset: tribe;">
+        <li><b>The Pre-Briefed (12%)</b>Came in with three names already in their phone. Will walk past the welcome desk because they're already mid-conversation.</li>
+        <li><b>The Hopefuls (28%)</b>Bookmarked four speakers and one panel. Hoping they bump into them at the coffee break. They won't.</li>
+        <li><b>The Stalkers (35%)</b>Spent 40 minutes searching the attendee list on LinkedIn the night before. Will not approach a single person they found.</li>
+        <li><b>The Drifters (20%)</b>Haven't opened the event app since they registered six weeks ago. Will read the agenda in the back of the cab on day one.</li>
+        <li><b>The Closers (5%)</b>Already sent two Calendly links and confirmed three coffees. Will leave the event with eight meetings and an investor lead.</li>
+      </ol>
+
+      <p style="margin-top: 36px;">That's 95% of your room arriving with no plan, no shortlist, and no intro. You handed every attendee the same lanyard. But four out of five of them are starting the event from cold, when one in twenty already has the playbook open.</p>
+
+      <div class="polaroid-wrap">
+        <div class="polaroid-stack">
+          <figure class="polaroid back" aria-hidden="true">
+            <img src="images/blog-2-1.png" alt="">
+            <figcaption>The night before.</figcaption>
+          </figure>
+          <figure class="polaroid front">
+            <img src="images/blog-2-1.png" alt="A professional reviewing an attendee list on her phone the night before a conference">
+            <figcaption>The room is already sorting itself.</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <p>Here's the uncomfortable truth: pre-event networking is already happening at every event you run. You just aren't designing it. The 5% who run their own playbook are eating the room, and the other 95% are pretending the welcome reception is where it begins.</p>
+
+      <p>The good news is, you can move the line. You can start the event before the event starts. And once you do, day one stops being where networking begins. It becomes where networking pays off.</p>
+
+      <p>Five reasons most organizers leave the pre-event window on the floor, with a fix for each.</p>
+
+      <!-- REASON 1 -->
+      <div class="section-head">
+        <h2>Reason 1: The First Hour Decides the Rest</h2>
+        <span class="sigil">§ 02 · Reason 01</span>
+      </div>
+      <div class="reason">
+        <div class="reason-num"><div class="big">01</div><div class="meta">First Hour</div></div>
+        <div class="reason-body">
+          <p>The most valuable connection of any event is almost always made in the first hour. And the first hour is almost always defined by who you arrived knowing.</p>
+          <p>An attendee who walks in with two names already in their head spends the morning compounding. They make one introduction, that person makes another, and by lunch they're three rings deep into the network. An attendee who walks in cold spends the morning scanning for someone to talk to. By lunch they've had one conversation.</p>
+          <p>The gap between those two attendees, by day three, is enormous. And it was decided before either of them showed up.</p>
+          <div class="fix">
+            <b>The Fix</b>
+            <p>Send every attendee three pre-event match suggestions, with context, in the week before doors open. Not a 400-person directory. Not a generic "here's who's coming." Three people, with one sentence each on why they should meet.</p>
+            <p>That's the entire shift. You move the first hour from a lottery to a lineup.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REASON 2 -->
+      <div class="section-head">
+        <h2>Reason 2: Attendees Aren't Strangers. They're Un-Introduced.</h2>
+        <span class="sigil">§ 02 · Reason 02</span>
+      </div>
+      <div class="reason">
+        <div class="reason-num"><div class="big">02</div><div class="meta">No Intro</div></div>
+        <div class="reason-body">
+          <p>Two people on your attendee list are working on the same problem. They're geographically close. They have one mutual contact. They'd be each other's best meeting of the year.</p>
+          <p>They will never meet. Not because they don't want to. Because no one introduced them.</p>
+          <p>Cold approach at the venue isn't the bar that filters good matches from bad ones. It's the bar that filters extroverts from everyone else. You're not pre-qualifying conversation quality. You're pre-qualifying personality type.</p>
+          <div class="fix">
+            <b>The Fix</b>
+            <p>Stop treating attendees as strangers who happen to be in the same room. Treat them as a network you have the privilege to introduce. Pre-event email: "You should meet [Name]. Both of you are working on [X]. They'd value 20 minutes."</p>
+            <p>That sentence does more for connection quality than any breakout you'll design on the day.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REASON 3 -->
+      <div class="section-head">
+        <h2>Reason 3: Intent Beats Improvisation</h2>
+        <span class="sigil">§ 02 · Reason 03</span>
+      </div>
+      <div class="reason">
+        <div class="reason-num"><div class="big">03</div><div class="meta">Intent</div></div>
+        <div class="reason-body">
+          <p>"Let's grab coffee on the floor" is the most common networking commitment made at events. It is also the most reliably broken one.</p>
+          <p>Coffee at 11am between two breakouts requires both people to remember, both to be in the same place, both to not get pulled into a hallway conversation, and both to actually have 20 minutes. The hit rate is, generously, one in five.</p>
+          <p>A meeting at 9am, on a calendar, with both parties already knowing why it's happening, has a hit rate close to one in one. The same conversation. Massively different odds of it actually occurring.</p>
+          <div class="fix">
+            <b>The Fix</b>
+            <p>Make the calendar the venue. Once a match is proposed pre-event, give both sides a one-click scheduling option that turns intent into a calendar block before they've even printed their boarding pass.</p>
+            <p>Stop hoping it happens at coffee. Put it on the calendar.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REASON 4 -->
+      <div class="section-head">
+        <h2>Reason 4: Your Sponsors Are Paying For Access They Aren't Getting</h2>
+        <span class="sigil">§ 02 · Reason 04</span>
+      </div>
+      <div class="reason">
+        <div class="reason-num"><div class="big">04</div><div class="meta">Sponsor ROI</div></div>
+        <div class="reason-body">
+          <p>Sponsors don't write you a six-figure cheque for a logo on a step-and-repeat. They're paying for access to the room. The unsaid agreement is that they'll meet 15 to 30 of the right buyers across three days.</p>
+          <p>What actually happens: their reps stand at the booth for nine hours and pitch whoever walks by. Half the booth visits are competitors. Most of the rest are job-seekers.</p>
+          <p>The pre-event window is the highest-leverage hour your sponsors will ever get. And almost no event programmes it for them.</p>
+          <div class="fix">
+            <b>The Fix</b>
+            <p>Give every sponsor a curated pre-event match list a week before doors. Five to ten attendees they're a clean fit for, with intros offered. Let them book three of those in advance.</p>
+            <p>Sponsors stop pitching. They start meeting. Their renewal next year stops being a debate.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- REASON 5 -->
+      <div class="section-head">
+        <h2>Reason 5: The Event App Most Organizers Ship Is a Directory, Not a Tool</h2>
+        <span class="sigil">§ 02 · Reason 05</span>
+      </div>
+      <div class="reason">
+        <div class="reason-num"><div class="big">05</div><div class="meta">Wrong Tool</div></div>
+        <div class="reason-body">
+          <p>Open the app you shipped last year. You'll see a list of attendees. Probably searchable. Probably with a tiny chat function nobody used.</p>
+          <p>A list of names is not networking. It's the same problem the venue floor has, just on a smaller screen. The attendee still has to identify, approach, and convert. Three steps, each with its own failure point.</p>
+          <p>The job of pre-event tech isn't to display the room. It's to navigate it. Suggest, schedule, brief, follow up. If your app does the first one and nothing else, you've shipped a phonebook.</p>
+          <div class="fix">
+            <b>The Fix</b>
+            <p>Replace the directory with a workflow. Profile capture → match logic → suggested intros → in-app scheduling → pre-event briefing → post-event follow-up. Same database. Completely different product.</p>
+            <p>The directory tells the attendee who's here. The workflow tells them what to do about it.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE STACK -->
+      <div class="section-head">
+        <h2>The 2026 Pre-Event Stack</h2>
+        <span class="sigil">§ 03 · The Stack</span>
+      </div>
+
+      <p>Here's the pre-event networking architecture the best organizers of 2026 are running. Same six layers every time. Different industries, different sizes, same shape.</p>
+
+      <ol class="stack-list">
+        <li><div class="body"><b>Intent capture at registration</b><p>Beyond name and title. What are you working on? Who do you want to meet? What does a successful event look like for you? Three fields, five minutes, the entire match engine downstream depends on it.</p></div></li>
+        <li><div class="body"><b>Match logic that ranks by goal, not industry</b><p>"You're both in fintech" is not a match. "You're both raising in Q3, and one of you has done it twice already" is.</p></div></li>
+        <li><div class="body"><b>The seven-day-out intro email</b><p>Three named people. One sentence each on why. A scheduling button. Sent the Tuesday before. Read on the flight in.</p></div></li>
+        <li><div class="body"><b>One-click in-app scheduling</b><p>The intro is half the work. Booking it is the other half. Don't separate them into two apps and two decisions.</p></div></li>
+        <li><div class="body"><b>The pre-event briefing room</b><p>A 30-minute virtual session, two days out, grouped by cohort. Lowers the activation energy of every conversation that happens on site.</p></div></li>
+        <li><div class="body"><b>A live attendee list that updates as goals shift</b><p>People register six weeks out and arrive as a slightly different person. The match engine should reflect that.</p></div></li>
+      </ol>
+
+      <p style="margin-top: 36px;">None of this is theoretical. It's the stack that runs underneath the best summits, the best founder gatherings, and the best corporate offsites of 2026. It is also, almost certainly, not running underneath yours.</p>
+
+      <!-- PULLQUOTE -->
+      <div class="pullquote">
+        <div class="tag">The Thesis · §05</div>
+        <p>"The hour before the event starts is the hour that decides the event. The organizers who own that hour own the connection. The ones who don't are renting a venue and hoping."</p>
+        <cite>Connection by Design, Vol. 02</cite>
+      </div>
+
+      <!-- WHERE HOOGAH FITS -->
+      <div class="section-head">
+        <h2>Where Hoogah Fits</h2>
+        <span class="sigil">§ 04 · Hoogah</span>
+      </div>
+
+      <p>Hoogah was built to open the room before the venue does.</p>
+      <p>Attendees fill out a 90-second intent profile during registration. The match layer ranks the room by goal, not industry. A week before doors, every attendee gets three high-fit suggestions with context. One-click scheduling turns intent into calendar holds. By the time your guests land, the first three meetings of their event are already booked.</p>
+      <p>You stop hoping the room sorts itself. The room arrives already sorted. The first hour of your event stops being a lottery. And every hour after it compounds.</p>
+
+      <!-- BOTTOM LINE -->
+      <div class="section-head">
+        <h2>The Bottom Line</h2>
+        <span class="sigil">§ 05 · Conclusion</span>
+      </div>
+
+      <p>Networking at events doesn't begin when the doors open. It begins the week your attendee list goes live. The 5% who already know that are eating the room. The other 95% are showing up cold to an event the smartest people have already started.</p>
+      <p>The shift is small. Move the work earlier. Match the room before it walks in. Put the first meeting on the calendar before the flight. The event itself becomes the payoff, not the setup.</p>
+      <p>If your last event ended with attendees saying "the keynote was great, but I wish I'd met more people," the fix isn't a bigger venue or a longer cocktail hour. It's a Tuesday email, sent the week before. Once you ship one, the question stops being "did people connect" and starts being "how many connections do we want to design this year."</p>
+
+      <!-- INVITATION -->
+      <aside class="invitation">
+        <div class="tag">Want to See What Pre-Event Networking Looks Like?</div>
+        <h3>The fastest way to get it is to see it live.</h3>
+        <p>Book a free Hoogah demo. In 20 minutes, we'll walk you through intent-based matching, pre-event intros, and one-click scheduling for your next event. No fluff. No hard sell. Just the playbook.</p>
+        <div class="actions">
+          <button class="btn-magenta" type="button" onclick="window.location.href='mailto:khushi@hoogah.app?subject=Hoogah%20Demo'">Book a free demo</button>
+          <a href="#" class="link-lime">or just read the essays →</a>
+        </div>
+      </aside>
+
+      <!-- FURTHER READING -->
+      <section class="further">
+        <div class="label">Further Reading</div>
+        <h3>If this one landed, here are five more.</h3>
+        <ul>
+          <li><a href="https://hoogah.com/blog/improve-networking-at-events" style="color:inherit;text-decoration:none;display:block;width:100%;">Why Networking at Events Doesn't Work (And How to Fix It)</a></li>
+          <li><a href="https://hoogah.com/blog/why-attendees-dont-know-who-to-talk-to-at-events" style="color:inherit;text-decoration:none;display:block;width:100%;">Why Attendees Don't Know Who to Talk To at Events</a></li>
+          <li><a href="https://hoogah.com/blog/how-to-measure-networking-roi-at-your-event" style="color:inherit;text-decoration:none;display:block;width:100%;">How to Measure Networking ROI at Your Event</a></li>
+          <li><a href="https://hoogah.com/blog/sponsor-roi-starts-before-the-floor-opens" style="color:inherit;text-decoration:none;display:block;width:100%;">Sponsor ROI Starts Before the Floor Opens</a></li>
+          <li><a href="https://hoogah.com/blog/the-quiet-economy-of-introductions" style="color:inherit;text-decoration:none;display:block;width:100%;">The Quiet Economy of Introductions</a></li>
+        </ul>
+      </section>
+
+      <!-- SOURCES -->
+      <section class="sources">
+        <div class="label">External Sources</div>
+        <ul>
+          <li><a href="https://www.bizzabo.com" target="_blank" rel="noopener noreferrer" style="color:inherit;">Bizzabo</a>, Event Insights 2026: The Pre-Event Window</li>
+          <li><a href="https://www.eventbrite.com" target="_blank" rel="noopener noreferrer" style="color:inherit;">Eventbrite</a>, Why First-Hour Connections Drive Repeat Attendance</li>
+          <li><a href="https://hbr.org" target="_blank" rel="noopener noreferrer" style="color:inherit;">Harvard Business Review</a>, The Hidden Cost of Cold Introductions</li>
+        </ul>
+      </section>
+
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <div>
+      <div class="brand"><img src="../public/images/brand/logo-color-cropped.png" alt="hoogah"></div>
+      <p class="meta">Made with intention. Founded May 2025. Built by humans, for humans.</p>
+    </div>
+    <div class="right">
+      <div class="socials">
+        <a href="https://www.instagram.com/hoogah.co/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/hoogah1/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+      </div>
+      hoogah.app &nbsp;·&nbsp; read the essays &nbsp;·&nbsp; <a href="mailto:khushi@hoogah.app" style="color:inherit;">khushi@hoogah.app</a>
+      <p class="end">End of the page, beginning of the room.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var nav = document.getElementById('nav');
+    function onScroll() {
+      if (window.scrollY > 24) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Reading progress bar
+    var progress = document.getElementById('read-progress');
+    function updateProgress() {
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var p = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+      if (progress) progress.style.width = p + '%';
+    }
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress, { passive: true });
+
+    var burger = document.getElementById('nav-burger');
+    var root = document.getElementById('nav-drawer-root');
+    var backdrop = document.getElementById('nav-drawer-backdrop');
+    var drawer = document.getElementById('nav-drawer');
+
+    function setOpen(open) {
+      root.classList.toggle('is-open', open);
+      burger.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      root.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.body.classList.toggle('drawer-open', open);
+    }
+    function close() { setOpen(false); }
+
+    if (burger) burger.addEventListener('click', function () { setOpen(!root.classList.contains('is-open')); });
+    if (backdrop) backdrop.addEventListener('click', close);
+    drawer.querySelectorAll('a.link').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  })();
+</script>
+</body>
+</html>
